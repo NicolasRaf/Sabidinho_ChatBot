@@ -2,6 +2,10 @@
 
 Este é o projeto final da disciplina de Inteligência Artificial, um chatbot multimodal completo e funcional chamado "Sabidinho". A aplicação foi construída com Python e Flask no backend, e utiliza a API do Google Gemini para processamento de linguagem natural e análise de imagens.
 
+**Acesse o Sabidinho!** [**Clique Aqui!**](https://sabidinho-chatbot.onrender.com)
+
+_Caso queira rodar localmente acesse a secção_ [_Executar Localmente_](#-como-rodar-o-projeto-localmente)
+
 ## ✨ Funcionalidades
 
 - **Conversa Inteligente**: Mantém um diálogo coerente e contextual utilizando a API do Google Gemini.

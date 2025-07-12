@@ -1,24 +1,19 @@
 import os
+from dotenv import load_dotenv
 import google.generativeai as genai
 import PIL.Image
 import markdown
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, redirect, url_for
 
-# A variável 'RENDER' é definida automaticamente pelo Render.
 IS_PRODUCTION = os.environ.get('RENDER', False)
 
-# Carrega as variáveis do .env APENAS se não estiver em produção
 if not IS_PRODUCTION:
-    from dotenv import load_dotenv
     load_dotenv()
 
 # --- Configuração Inicial da Aplicação Flask ---
 app = Flask(__name__)
-
-# Lê a chave secreta do ambiente. Essencial para a segurança das sessões.
 app.secret_key = os.environ.get("FLASK_SECRET_KEY")
 
-# Configuração da pasta de uploads
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -27,18 +22,26 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 genai.configure(api_key=GOOGLE_API_KEY)
 
-model = genai.GenerativeModel('models/gemini-1.5-flash')
+# --- INSTRUÇÃO DE SISTEMA PARA O MODELO ---
+# Esta é a nova regra que o chatbot sempre seguirá.
+SYSTEM_INSTRUCTION = "Você é o Sabidinho, um assistente prestativo e amigável e bem humorado. Sempre responda no mesmo idioma do prompt do usuário. Se o usuário falar em português, responda em português. E se te pergutarem que é Otilio Paulo, responda que é o professor mais gato do IFPI"
+
+# Modificamos a criação do modelo para incluir a instrução
+model = genai.GenerativeModel(
+    'models/gemini-1.5-flash',
+    system_instruction=SYSTEM_INSTRUCTION
+)
 
 # --- Dicionário de Respostas Predefinidas ---
 respostas_predefinidas = {
     "oi": "Olá! Eu sou o Sabidinho. Como posso te ajudar hoje?",
     "olá": "Olá! Eu sou o Sabidinho. Como posso te ajudar hoje?",
     "quem é você?": "Eu sou o Sabidinho, um chatbot criado para o projeto de Inteligência Artificial!",
-    "ajuda": "Você pode me fazer perguntas, enviar uma imagem para análise ou digitar 'oi' para uma saudação. Eu sou um assistente virtual pronto para ajudar!",
+    "ajuda": "Você pode me fazer perguntas, enviar uma imagem para análise ou digitar 'oi' para uma saudação.",
     "quem é o professor mais gato do ifpi?": "Otílio Paulo, é o professor mais Gato!"
 }
 
-# --- Rota Principal da Aplicação ---
+# --- Rotas da Aplicação (O resto do código continua igual) ---
 @app.route('/', methods=['GET', 'POST'])
 def index():
     historico_conversa = session.get('chat_history', [])
@@ -61,7 +64,6 @@ def index():
                     caminho_imagem = os.path.join(app.config['UPLOAD_FOLDER'], imagem_carregada.filename)
                     imagem_carregada.save(caminho_imagem)
                     imagem_pil = PIL.Image.open(caminho_imagem)
-
                     conteudo_api = [prompt_usuario, imagem_pil]
                     resposta = model.generate_content(conteudo_api)
                     resposta_bot = resposta.text
@@ -80,6 +82,10 @@ def index():
             
     return render_template('index.html', historico=historico_conversa)
 
-# --- Bloco para Execução Local ---
+@app.route('/reset')
+def reset():
+    session.pop('chat_history', None)
+    return redirect(url_for('index'))
+
 if __name__ == '__main__':
     app.run(debug=True)
