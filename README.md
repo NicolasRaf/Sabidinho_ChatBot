@@ -94,7 +94,3 @@ python app.py
 ```
 
 A aplicação estará rodando em `http://127.0.0.1:5000`. Abra este endereço no seu navegador para interagir com o Sabidinho ChatBot!
-
-## 📜 Licença
-
-Este projeto é de código aberto, licenciado sob a [Licença MIT](LICENSE).
