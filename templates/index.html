@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sabidinho ChatBot</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h2>Sabidinho ChatBot 🤖</h2>
+            <p>Seu assistente com IA</p>
+        </div>
+        <div class="chat-history">
+            {% for message in historico %}
+                <div class="message {{ 'user-message' if message.role == 'user' else 'bot-message' }}">
+                    <span class="role">{{ 'Você' if message.role == 'user' else 'Sabidinho 🤖' }}</span>
+                    <span>{{ message.parts|join(' ')|safe }}</span>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="chat-input-area">
+            <form id="chat-form" class="chat-input-form" method="POST" enctype="multipart/form-data">
+                <div class="file-input-wrapper">
+                    <label for="file-input" class="file-input-label">
+                        <svg viewBox="0 0 24 24"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5a2.5 2.5 0 0 1 5 0v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5a2.5 2.5 0 0 0 5 0V5c-2.21 0-4 1.79-4 4v11.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"></path></svg>
+                    </label>
+                    <input id="file-input" type="file" name="imagem" accept="image/*">
+                    <span id="file-name" class="loading-image" style="display: none;">Carregando...</span>
+                </div>
+
+                <input id="prompt-input" type="text" name="prompt" placeholder="Digite sua pergunta..." required autocomplete="off">
+
+                <button id="submit-button" type="submit" class="submit-button">
+                    <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+
+        const chatHistory = document.querySelector('.chat-history');
+        // Leva a barra de rolagem até o fim
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+        
+        document.getElementById('file-input').addEventListener('change', function() {
+            const fileNameSpan = document.getElementById('file-name');
+            if (this.files.length > 0) {
+                fileNameSpan.style.display = 'inline';
+                fileNameSpan.textContent = `Carregando: ${this.files[0].name}`;
+            } else {
+                fileNameSpan.style.display = 'none';
+            }
+        });
+
+        const chatForm = document.getElementById('chat-form');
+        const submitButton = document.getElementById('submit-button');
+        const promptInput = document.getElementById('prompt-input');
+        const fileInput = document.getElementById('file-input'); // Selecionamos o input do arquivo
+
+        chatForm.addEventListener('submit', function() {
+            promptInput.readOnly = true;         
+            submitButton.disabled = true;
+            submitButton.innerHTML = `<div class="spinner"></div>`;
+        });
+    </script>
+</body>
+</html>
