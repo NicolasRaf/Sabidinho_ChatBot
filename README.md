@@ -83,8 +83,8 @@ b. Copie e cole o conteúdo abaixo dentro do arquivo `.env`, substituindo os val
 
 ```bash
 # Arquivo .env
-GOOGLE_API_KEY="SUA_CHAVE_API_VALIDA_DO_GOOGLE_VAI_AQUI"
-FLASK_SECRET_KEY="SUA_CHAVE_SECRETA_LONGA_E_ALEATORIA_PARA_O_FLASK"
+GOOGLE_API_KEY="SUA_CHAVE_API_VALIDA_DO_GOOGLE_VAI_AQUI" # Chave gerada para API do Gemini
+FLASK_SECRET_KEY="SUA_CHAVE_SECRETA_LONGA_E_ALEATORIA_PARA_O_FLASK" # Está chave é de sua escolha
 ```
 
 ### 6. Executar a Aplicação
