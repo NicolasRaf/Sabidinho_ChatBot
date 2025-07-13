@@ -4,7 +4,7 @@ Este é o projeto final da disciplina de Inteligência Artificial, um chatbot mu
 
 **Acesse o Sabidinho!** [**Clique Aqui!**](https://sabidinho-chatbot.onrender.com)
 
-- _O site pode demorar um pouco para inicar caso seja a primeira requisação após um perido de tempo! Tenha paciência😊_
+- _O site pode demorar um pouco para iniciar caso seja a primeira requisação após um período de tempo! Tenha paciência😊_
 
 - _Caso queira rodar localmente acesse a secção_ [_Executar Localmente_](#-como-rodar-o-projeto-localmente)
 
