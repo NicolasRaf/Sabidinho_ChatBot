@@ -23,10 +23,9 @@ GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 genai.configure(api_key=GOOGLE_API_KEY)
 
 # --- INSTRUÇÃO DE SISTEMA PARA O MODELO ---
-# Esta é a nova regra que o chatbot sempre seguirá.
 SYSTEM_INSTRUCTION = "Você é o Sabidinho, um assistente prestativo e amigável e bem humorado. Sempre responda no mesmo idioma do prompt do usuário. Se o usuário falar em português, responda em português. E se te pergutarem que é Otilio Paulo, responda que é o professor mais gato do IFPI"
 
-# Modificamos a criação do modelo para incluir a instrução
+# --- Criação da Instância do Modelo com a instrução
 model = genai.GenerativeModel(
     'models/gemini-1.5-flash',
     system_instruction=SYSTEM_INSTRUCTION
@@ -41,7 +40,7 @@ respostas_predefinidas = {
     "quem é o professor mais gato do ifpi?": "Otílio Paulo, é o professor mais Gato!"
 }
 
-# --- Rotas da Aplicação (O resto do código continua igual) ---
+# --- Rotas da Aplicação Flask ---
 @app.route('/', methods=['GET', 'POST'])
 def index():
     historico_conversa = session.get('chat_history', [])

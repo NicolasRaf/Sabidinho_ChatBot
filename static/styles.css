@@ -32,14 +32,14 @@ html, body {
     color: #f8f8f8;
     padding: 20px;
     flex-shrink: 0;
-    display: flex; /* Adicionado */
-    justify-content: space-between; /* Adicionado */
-    align-items: center; /* Adicionado */
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
 }
 
 .chat-header h2, .chat-header p {
     margin: 0;
-    text-align: left; /* Alinhado à esquerda agora */
+    text-align: left;
 }
 
 .reset-button {
@@ -68,17 +68,14 @@ html, body {
     flex-direction: column;
     gap: 16px;
     
-    /* === CÓDIGO PARA ESCONDER A BARRA DE ROLAGEM === */
-    scrollbar-width: none; /* Para Firefox */
-    -ms-overflow-style: none;  /* Para Internet Explorer e Edge */
+    scrollbar-width: none; 
+    -ms-overflow-style: none;  
 }
 
-/* Para Chrome, Safari e outros baseados em WebKit */
 .chat-history::-webkit-scrollbar {
     display: none;
 }
 
-/* === FIM DO CÓDIGO DA BARRA DE ROLAGEM === */
 
 .message {
     padding: 12px 16px;
@@ -143,7 +140,6 @@ html, body {
     padding: 8px;
 }
 
-/* Estilos de input e botões continuam os mesmos */
 .chat-input-form input::placeholder {
     color: #b0b0b0;
 }
@@ -218,14 +214,10 @@ html, body {
     margin-left: 8px;
 }
 
-/* === ESTILOS PARA O ESTADO DE 'CARREGANDO' ATUALIZADO === */
-
-/* Estilo para o campo de texto quando for apenas leitura */
 .chat-input-form input:read-only {
     cursor: not-allowed;
 }
 
-/* Estilos para botões desativados */
 .file-input-label:has(+ input:disabled) {
     background-color: #412d5e;
     cursor: not-allowed;
