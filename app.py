@@ -63,6 +63,7 @@ def index():
                     caminho_imagem = os.path.join(app.config['UPLOAD_FOLDER'], imagem_carregada.filename)
                     imagem_carregada.save(caminho_imagem)
                     imagem_pil = PIL.Image.open(caminho_imagem)
+
                     conteudo_api = [prompt_usuario, imagem_pil]
                     resposta = model.generate_content(conteudo_api)
                     resposta_bot = resposta.text
@@ -74,17 +75,24 @@ def index():
                 historico_conversa.append({"role": "model", "parts": [html_resposta]})
 
             except Exception as e:
-                resposta_bot = f"Ocorreu um erro: {e}"
-                historico_conversa.append({"role": "model", "parts": [resposta_bot]})
+                print(f"!!! OCORREU UM ERRO NA API: {e} !!!")
+                
+                resposta_bot = "Desculpe, não consegui processar sua solicitação no momento. Verifique a configuração da sua chave de API ou tente novamente mais tarde (caso a cota de requisções tenha sido atingida)."
+                
+                html_resposta = markdown.markdown(resposta_bot)
+                historico_conversa.append({"role": "model", "parts": [html_resposta]})
 
         session['chat_history'] = historico_conversa
             
     return render_template('index.html', historico=historico_conversa)
+
 
 @app.route('/reset')
 def reset():
     session.pop('chat_history', None)
     return redirect(url_for('index'))
 
+
+# --- Bloco para Execução Local ---
 if __name__ == '__main__':
     app.run(debug=True)
