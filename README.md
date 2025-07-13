@@ -44,7 +44,7 @@ Siga os passos abaixo para clonar e executar a aplicação no seu ambiente de de
 Abra seu terminal e clone o projeto:
 
 ```bash
-git clone <URL_DO_SEU_REPOSITÓRIO_GIT>
+git clone https://github.com/NicolasRaf/Sabidinho_ChatBot.git
 cd Sabidinho-ChatBot
 ```
 
